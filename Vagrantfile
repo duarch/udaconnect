@@ -14,23 +14,23 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
 
-# change name of box to branch temporarily on test enviorment
 
-  config.vm.define "branch" do |branch|
-    branch.vm.box = default_box
-    branch.vm.hostname = "branch"
-    branch.vm.network 'private_network', ip: "192.168.0.300",  virtualbox__intnet: true
-    branch.vm.network "forwarded_port", guest: 22, host: 2223, id: "ssh", disabled: true
-    branch.vm.network "forwarded_port", guest: 22, host: 2001 # branch Node SSH
-    branch.vm.network "forwarded_port", guest: 6444, host: 6444 # API Access
+
+  config.vm.define "master" do |master|
+    master.vm.box = default_box
+    master.vm.hostname = "master"
+    master.vm.network 'private_network', ip: "192.168.0.200",  virtualbox__intnet: true
+    master.vm.network "forwarded_port", guest: 22, host: 2222, id: "ssh", disabled: true
+    master.vm.network "forwarded_port", guest: 22, host: 2000 # master Node SSH
+    master.vm.network "forwarded_port", guest: 6443, host: 6443 # API Access
     for p in 30000..30100 # expose NodePort IP's
-      branch.vm.network "forwarded_port", guest: p, host: p, protocol: "tcp"
+      master.vm.network "forwarded_port", guest: p, host: p, protocol: "tcp"
       end
-    branch.vm.provider "virtualbox" do |v|
+    master.vm.provider "virtualbox" do |v|
       v.memory = "3072"
-      v.name = "branch"
+      v.name = "master"
       end
-    branch.vm.provision "shell", inline: <<-SHELL
+    master.vm.provision "shell", inline: <<-SHELL
       sudo zypper refresh
       sudo zypper --non-interactive install bzip2
       sudo zypper --non-interactive install etcd
