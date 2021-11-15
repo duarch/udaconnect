@@ -9,9 +9,9 @@ name: UdaConnect - LOC
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [ locationtest ]
   pull_request:
-    branches: [ master ]
+    branches: [ locationtest ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
