@@ -42,8 +42,8 @@ jobs:
         uses: docker/build-push-action@v2.6.1
 
         with:
-          context: ./modules/location-srv
-          file: ./modules/location-srv/Dockerfile
+          context: ./modules/location_srv
+          file: ./modules/location_srv/Dockerfile
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/udaconnect-loc:latest
