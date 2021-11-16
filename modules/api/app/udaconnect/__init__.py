@@ -9,4 +9,4 @@ def register_routes(api, app, root="api"):
     from modules.location_srv.app.udaconnect.controllers import loc as location_loc 
 
     api.add_namespace(udaconnect_api, path=f"/{root}")
-    loc.add_namespace(udaconnect_loc, path=f"/{root}")
+    
