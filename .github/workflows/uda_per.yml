@@ -1,7 +1,7 @@
 # This is a basic workflow to help you get started with Actions
 
 
-name: UdaConnect - API
+name: UdaConnect - PERSON
   
 
 
@@ -42,8 +42,8 @@ jobs:
         uses: docker/build-push-action@v2.6.1
 
         with:
-          context: ./modules/api
-          file: ./modules/api/Dockerfile
+          context: ./modules/connection
+          file: ./modules/connection/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/udaconnect-api:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/udaconnect-per:latest
