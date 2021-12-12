@@ -36,6 +36,11 @@ Vagrant.configure("2") do |config|
       sudo zypper --non-interactive install bzip2
       sudo zypper --non-interactive install etcd
       sudo zypper --non-interactive install apparmor-parser
+      # Istalling HELM
+      curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+      chmod +x get_helm.sh
+      ./get_helm.sh
+      # Installing KUBECTL
       curl -sfL https://get.k3s.io | sh -
     SHELL
   end
