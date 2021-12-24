@@ -1,7 +1,7 @@
 # This is a basic workflow to help you get started with Actions
 
 
-name: UdaConnect - KAFKA
+name: UdaConnect - Loction-Consumer
   
 
 
@@ -49,8 +49,8 @@ jobs:
         uses: docker/build-push-action@v2.6.1
 
         with:
-          context: ./modules/kafka
-          file: ./modules/kafka/Dockerfile
+          context: ./modules/kafka_cons
+          file: ./modules/kafka_cons/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/udaconnect-kafka:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/udaconnect-consumer:latest

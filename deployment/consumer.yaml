@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  DB_USERNAME: "ct_connections"
+  DB_NAME: "connections"
+  DB_HOST: "postgres-connections"
+  DB_PORT: "5432"
+  DNS: location-kafka.default.svc.cluster.local:9092
+  TOPIC: test
+metadata:
+  name: location-consumer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: location-consumer
+  name: location-consumer
+spec:
+  ports:
+  - name: "9092"
+    port: 9092
+    targetPort: 9092
+  selector:
+    service: location-consumer
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: location-consumer
+  name: location-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: location-consumer
+  template:
+    metadata:
+      labels:
+        service: location-consumer
+    spec:
+      containers:
+      - image: duarch/udaconnect-consumer:latest
+        name: location-consumer
+        imagePullPolicy: Always
+        env:
+        - name: DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: db-connections-map
+              key: DB_USERNAME
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-connections-secret
+              key: DB_PASSWORD
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: db-connections-map
+              key: DB_NAME
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: db-connections-map
+              key: DB_HOST
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: db-connections
+              key: DB_PORT
+        - name: DNS
+          valueFrom:
+            configMapKeyRef:
+              name: location-consumer
+              key: DNS
+        - name: TOPIC
+          valueFrom:
+            configMapKeyRef:
+              name: location-consumer
+              key: TOPIC
+        - name: DuarchPY
+          value: '0'
+      restartPolicy: Always

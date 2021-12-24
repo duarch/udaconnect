@@ -36,15 +36,15 @@ Vagrant.configure("2") do |config|
       sudo zypper --non-interactive install bzip2
       sudo zypper --non-interactive install etcd
       sudo zypper --non-interactive install apparmor-parser
-      # Istalling HELM
-      curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-      chmod +x get_helm.sh
-      ./get_helm.sh
-      # Installing Kafka
-      sudo helm repo add bitnami https://charts.bitnami.com/bitnami
-      sudo helm install my-release bitnami/kafka 
+      
       # Installing KUBECTL
       curl -sfL https://get.k3s.io | sh -
+      export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+      # Installing JAVA 8+
+      sudo zypper --non-interactive install java-1_8_0-openjdk-devel
+     
+      
     SHELL
   end
 

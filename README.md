@@ -74,6 +74,34 @@ users:
 Type `exit` to exit the virtual OS and you will find yourself back in your computer's session. Create the file (or replace if it already exists) `~/.kube/config` and paste the contents of the `k3s.yaml` output here.
 
 Afterwards, you can test that `kubectl` works by running a command like `kubectl describe services`. It should not return any errors.
+### Running Kafka Cluster
+
+```
+helm install location bitnami/kafka
+```
+
+Kafka can be accessed by consumers via port 9092 on the following DNS name from within your cluster:       
+
+`location-kafka.default.svc.cluster.local`
+
+Each Kafka broker can be accessed by producers via port 9092 on the following DNS name(s) from within your 
+cluster:
+
+`location-kafka-0.location-kafka-headless.default.svc.cluster.local:9092`
+
+To create a pod that you can use as a Kafka client run the following commands:
+```
+kubectl run location-kafka-client --restart='Never' --image docker.io/bitnami/kafka:2.8.1-debian-10-r73 --namespace default --command -- sleep infinity
+kubectl exec --tty -i location-kafka-client --namespace default -- bash
+```
+PRODUCER:
+```
+kafka-console-producer.sh --broker-list location-kafka-0.location-kafka-headless.default.svc.cluster.local:9092 --topic test
+```
+CONSUMER:
+```
+kafka-console-consumer.sh --bootstrap-server location-kafka.default.svc.cluster.local:9092 --topic test --from-beginning
+```
 
 ### Steps
 1. `kubectl apply -f deployment/db-configmap.yaml` - Set up environment variables for the pods
