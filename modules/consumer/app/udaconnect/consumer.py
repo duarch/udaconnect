@@ -14,17 +14,21 @@ TOPIC_NAME = os.environ["KAFKA_TOPIC"]
 
 consumer = KafkaConsumer(TOPIC_NAME, bootstrap_servers=[KAFKA_URL])
 
-# Consuming data 
-def collect_data(location):
-    conn = create_engine(f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}", echo=True)
-    cur = conn.cursor()
-    user_id = int(location["userId"])
-    latitude, longitude = int(location["latitude"]), int(location["longitude"])
-    db_data = "INSERT INTO location (person_id, coordinate) VALUES ({}, ST_Point({}, {}))" \
-        .format(user_id, latitude, longitude)
+# Only to test
+for message in consumer:
+    print (message)
 
-    print(db_data)
-    cur.execute(db_data)
+# # Consuming data 
+# def collect_data(location):
+#     conn = create_engine(f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}", echo=True)
+#     cur = conn.cursor()
+#     user_id = int(location["userId"])
+#     latitude, longitude = int(location["latitude"]), int(location["longitude"])
+#     db_data = "INSERT INTO location (person_id, coordinate) VALUES ({}, ST_Point({}, {}))" \
+#         .format(user_id, latitude, longitude)
+
+#     print(db_data)
+#     cur.execute(db_data)
 
 
 for topic in consumer:

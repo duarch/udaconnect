@@ -8,42 +8,42 @@ data:
   KAFKA_URL: location-kafka.default.svc.cluster.local
   KAFKA_TOPIC: test
 metadata:
-  name: location-consumer-map
+  name: location-producer-map
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    service: location-consumer
-  name: location-consumer
+    service: location-producer
+  name: location-producer
 spec:
   ports:
   - name: "9092"
     port: 9092
     targetPort: 9092
   selector:
-    service: location-consumer
+    service: location-producer
   type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    service: location-consumer
-  name: location-consumer
+    service: location-producer
+  name: location-producer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: location-consumer
+      service: location-producer
   template:
     metadata:
       labels:
-        service: location-consumer
+        service: location-producer
     spec:
       containers:
-      - image: duarch/udaconnect-consumer:latest
-        name: location-consumer
+      - image: duarch/udaconnect-producer:latest
+        name: location-producer
         imagePullPolicy: Always
         env:
         - name: DB_USERNAME
@@ -74,11 +74,11 @@ spec:
         - name: KAFKA_URL
           valueFrom:
             configMapKeyRef:
-              name: location-consumer-map
+              name: location-producer-map
               key: KAFKA_URL
         - name: KAFKA_TOPIC
           valueFrom:
             configMapKeyRef:
-              name: location-consumer-map
+              name: location-producer-map
               key: KAFKA_TOPIC
       restartPolicy: Always

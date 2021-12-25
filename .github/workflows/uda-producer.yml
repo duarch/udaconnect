@@ -1,7 +1,7 @@
 # This is a basic workflow to help you get started with Actions
 
 
-name: UdaConnect - CONSUMER
+name: UdaConnect - PRODUCER
   
 
 
@@ -53,4 +53,4 @@ jobs:
           file: ./modules/consumer/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/udaconnect-consumer:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/udaconnect-producer:latest
