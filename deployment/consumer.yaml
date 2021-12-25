@@ -49,38 +49,26 @@ spec:
         - name: DB_USERNAME
           valueFrom:
             configMapKeyRef:
-              name: db-connections-map
+              name: db-env
               key: DB_USERNAME
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: db-connections-secret
+              name: db-secret
               key: DB_PASSWORD
         - name: DB_NAME
           valueFrom:
             configMapKeyRef:
-              name: db-connections-map
+              name: db-env
               key: DB_NAME
         - name: DB_HOST
           valueFrom:
             configMapKeyRef:
-              name: db-connections-map
+              name: db-env
               key: DB_HOST
         - name: DB_PORT
           valueFrom:
             configMapKeyRef:
-              name: db-connections
+              name: db-env
               key: DB_PORT
-        - name: DNS
-          valueFrom:
-            configMapKeyRef:
-              name: location-consumer
-              key: DNS
-        - name: TOPIC
-          valueFrom:
-            configMapKeyRef:
-              name: location-consumer
-              key: TOPIC
-        - name: DuarchPY
-          value: '0'
       restartPolicy: Always

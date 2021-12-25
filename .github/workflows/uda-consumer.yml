@@ -49,8 +49,8 @@ jobs:
         uses: docker/build-push-action@v2.6.1
 
         with:
-          context: ./modules/kafka_cons
-          file: ./modules/kafka_cons/Dockerfile
+          context: ./modules/consumer
+          file: ./modules/consumer/Dockerfile
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/udaconnect-consumer:latest
