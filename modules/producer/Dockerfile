@@ -9,4 +9,4 @@ RUN pip install -r requirements.txt
 EXPOSE 5000
 
 COPY . .
-CMD ["python","app/udaconnect/consumer.py"]
+CMD ["python","app/udaconnect/producer.py"]

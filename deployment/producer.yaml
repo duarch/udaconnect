@@ -5,7 +5,7 @@ data:
   DB_NAME: "connections"
   DB_HOST: "postgres-connections"
   DB_PORT: "5432"
-  KAFKA_URL: location-kafka.default.svc.cluster.local
+  KAFKA_URL: location-kafka-0.location-kafka-headless.default.svc.cluster.local:9092
   KAFKA_TOPIC: test
 metadata:
   name: location-producer-map
