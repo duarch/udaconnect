@@ -39,10 +39,10 @@ Vagrant.configure("2") do |config|
       
       # Installing KUBECTL
       curl -sfL https://get.k3s.io | sh -
-      export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+      # export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
-      # Installing JAVA 8+
-      sudo zypper --non-interactive install java-1_8_0-openjdk-devel
+      # # Installing JAVA 8+
+      # sudo zypper --non-interactive install java-1_8_0-openjdk-devel
      
       
     SHELL
