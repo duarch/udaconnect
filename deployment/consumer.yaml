@@ -5,10 +5,10 @@ data:
   DB_NAME: "connections"
   DB_HOST: "postgres-connections"
   DB_PORT: "5432"
-  DNS: location-kafka.default.svc.cluster.local:9092
+  KAFKA_URL: location-kafka.default.svc.cluster.local:9092
   TOPIC: test
 metadata:
-  name: location-consumer
+  name: location-consumer-map
 ---
 apiVersion: v1
 kind: Service
@@ -48,9 +48,9 @@ spec:
         env:
         - name: DB_USERNAME
           valueFrom:
-            configMapKeyRef:
-              name: db-env
-              key: DB_USERNAME
+              configMapKeyRef:
+                name: db-env
+                key: DB_USERNAME
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -71,4 +71,14 @@ spec:
             configMapKeyRef:
               name: db-env
               key: DB_PORT
-      restartPolicy: Always
+        - name: KAFKA_URL
+          valueFrom:
+            configMapKeyRef:
+              name: config-location-consumer-map
+              key: KAFKA_URL
+        - name: TOPIC
+          valueFrom:
+            configMapKeyRef:
+              name: config-location-consumer-map
+              key: KAFKA_TOPIC
+       restartPolicy: Always
