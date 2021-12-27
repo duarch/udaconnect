@@ -1,13 +1,29 @@
+import time
+from concurrent import futures
+import grpc
+import location_pb2
+import location_pb2_grpc
+import logging
 import os
 import sys
 from kafka import KafkaProducer
 
-
-KAFKA_URL= os.environ["KAFKA_URL"]
+KAFKA_URL = os.environ["KAFKA_URL"]
 TOPIC_NAME = os.environ["KAFKA_TOPIC"]
- 
 
-producer = KafkaProducer(bootstrap_servers=KAFKA_URL)
+logging.basicConfig(level=logging.INFO)
 
-producer.send(TOPIC_NAME, b'Test Message!!!')
-producer.flush()
+def main():
+    producer = KafkaProducer(bootstrap_servers=KAFKA_URL)
+    with grpc.insecure_channel('localhost:50051') as channel:
+        stub = location_pb2_grpc.LocationStub(channel)
+        response = stub.GetLocation(location_pb2.GetLocationRequest())
+        location = response.location
+        print(location)
+        producer.send(TOPIC_NAME, location.SerializeToString())
+        producer.flush()
+        time.sleep(1)
+
+
+if __name__ == '__main__':
+    main()

@@ -8,4 +8,5 @@ RUN pip install -r requirements.txt
 EXPOSE 5000
 
 COPY . .
+RUN  python3 -m grpc_tools.protoc -I./ --python_out=./ --grpc_python_out=./ location.proto
 CMD ["python","app/udaconnect/producer.py"]

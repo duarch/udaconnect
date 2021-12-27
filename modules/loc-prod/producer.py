@@ -1,23 +1,29 @@
-# create a simple kafka producer using the kafka-python library
-# the message is sent to the topic 'test'
-# detect localhost and use the default port
-# the message should be sent as gRPC message based on the protobuf specification in the file 'location.proto'
+import time
+from concurrent import futures
+import grpc
+import location_pb2
+import location_pb2_grpc
 import logging
 import os
-
+import sys
 from kafka import KafkaProducer
 
+KAFKA_URL = os.environ["KAFKA_URL"]
+TOPIC_NAME = os.environ["KAFKA_TOPIC"]
 
-# kafka_url = os.environ["KAFKA_URL"]
-kafka_url = "location-kafka-0.location-kafka-headless.default.svc.cluster.local:9092"
-# kafka_topic = os.environ["KAFKA_TOPIC"]
-kafka_topic = "test"
-logging.info('connecting to kafka ', kafka_url)
-logging.info('connecting to kafka topic ', kafka_topic)
-# producer = KafkaProducer(bootstrap_servers=kafka_url)
-producer = KafkaProducer(bootstrap_servers='location-kafka-0.location-kafka-headless.default.svc.cluster.local:9092')
+logging.basicConfig(level=logging.INFO)
 
-# producer = KafkaProducer(bootstrap_servers=KAFKA_SERVER)
+def main():
+    producer = KafkaProducer(bootstrap_servers=KAFKA_URL)
+    with grpc.insecure_channel('localhost:50051') as channel:
+        stub = location_pb2_grpc.LocationStub(channel)
+        response = stub.GetLocation(location_pb2.GetLocationRequest())
+        location = response.location
+        print(location)
+        producer.send(TOPIC_NAME, location.SerializeToString())
+        producer.flush()
+        time.sleep(1)
 
-producer.send(kafka_topic, b'Test Message!!!')
-producer.flush()
+
+if __name__ == '__main__':
+    main()
