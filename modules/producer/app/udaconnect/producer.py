@@ -8,6 +8,8 @@ import os
 import sys
 from kafka import KafkaProducer
 
+# KAFKA_URL = "location-kafka-0.location-kafka-headless.default.svc.cluster.local:9092"
+# TOPIC_NAME = "test"
 KAFKA_URL = os.environ["KAFKA_URL"]
 TOPIC_NAME = os.environ["KAFKA_TOPIC"]
 

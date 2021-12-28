@@ -76,6 +76,18 @@ Type `exit` to exit the virtual OS and you will find yourself back in your compu
 Afterwards, you can test that `kubectl` works by running a command like `kubectl describe services`. It should not return any errors.
 ### Running Kafka Cluster
 
+Run this script:
+
+```sh
+sh scripts/kafka_cluster.sh
+
+```
+or
+```sh
+.\scripts\kafka_cluster.sh
+
+```
+
 ```
 helm install location bitnami/kafka
 ```
